@@ -6,3 +6,7 @@ mlruns/
 
 __init__.py
 __pycache__
+
+examples/
+docs/
+
