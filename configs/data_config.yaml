@@ -1,0 +1,3 @@
+dataset:
+    name: Telco_Customer_Churn
+    data_path: data/raw/Telco_Customer_Churn.csv
