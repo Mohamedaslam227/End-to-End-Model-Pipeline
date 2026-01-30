@@ -1,3 +1,20 @@
 dataset:
-    name: Telco_Customer_Churn
-    data_path: data/raw/Telco_Customer_Churn.csv
+  data_path: data\raw
+  name: Telco_Customer_Churn.csv
+  processed_data_path: data\processed
+  size_in_kb: 70
+  source_path: csv_files\Telco_Customer_Churn.csv
+  test_data_path: data\processed\test\Telco_Customer_Churn_test.csv
+  train_data_path: data\processed\train\Telco_Customer_Churn_train.csv
+  val_data_path: data\processed\val\Telco_Customer_Churn_val.csv
+  target_column: Churn
+
+model:
+  model_name: RandomForestClassifier
+  model_params:
+    n_estimators: 100
+    max_depth: 10
+    min_samples_split: 2
+    min_samples_leaf: 1
+    random_state: 42
+  epochs: 10

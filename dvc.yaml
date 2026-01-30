@@ -1,0 +1,49 @@
+stages:
+  data_ingestion:
+    cmd: venv\Scripts\python.exe scripts\run_ingestion.py
+    deps:
+      - csv_files/Telco_Customer_Churn.csv
+      - src/ingestion/load_data.py
+      - configs/data_config.yaml
+      - scripts/run_ingestion.py
+    outs:
+      - data/raw/Telco_Customer_Churn.csv
+
+  data_validation:
+    cmd: venv\Scripts\python.exe scripts\run_validation.py
+    deps:
+      - data/raw/Telco_Customer_Churn.csv
+      - src/validation/data_validation.py
+      - scripts/run_validation.py
+    
+  data_cleaning:
+    cmd: venv\Scripts\python.exe scripts\run_cleaning.py
+    deps:
+      - data/raw/Telco_Customer_Churn.csv
+      - src/processings/data_cleanup.py
+      - scripts/run_cleaning.py
+    outs:
+      - data/processed/Telco_Customer_Churn.csv
+
+  data_splitting:
+    cmd: venv\Scripts\python.exe scripts\run_splitting.py
+    deps:
+      - data/processed/Telco_Customer_Churn.csv
+      - src/processings/data_split.py
+      - scripts/run_splitting.py
+    outs:
+      - data/processed/train/
+      - data/processed/test/
+      - data/processed/val/
+  training_pipeline:
+    cmd: venv\Scripts\python.exe scripts\run_training.py
+    deps:
+      - data/processed/train/
+      - data/processed/test/
+      - data/processed/val/
+      - src/feature/RF_Feature_builder.py
+      - src/training/train_model.py
+      - scripts/run_training.py
+    outs:
+      - models/model.pkl
+      - models/preprocessor.pkl

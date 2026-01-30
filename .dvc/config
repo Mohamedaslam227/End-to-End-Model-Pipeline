@@ -1,4 +1,4 @@
 [core]
-    remote = gdrive
-['remote "gdrive"']
-    url = gdrive://1D0Pcn9vkBpsZbSDlc7FnNo7IebTGdwiS
+    remote = myremote
+['remote "myremote"']
+    url = C:\dvc-storage

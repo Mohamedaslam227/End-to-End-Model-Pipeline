@@ -1,0 +1,92 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: venv\Scripts\python.exe scripts\run_ingestion.py
+    deps:
+    - path: configs/data_config.yaml
+      hash: md5
+      md5: a5a866203e2e9bc3b17773ba7dd5d942
+      size: 382
+    - path: csv_files/Telco_Customer_Churn.csv
+      hash: md5
+      md5: 0f9de68e012bd3aed5fa7cdc9fc421af
+      size: 977501
+    - path: scripts/run_ingestion.py
+      hash: md5
+      md5: c0fff863b6b021d382fa9c57a9577607
+      size: 316
+    - path: src/ingestion/load_data.py
+      hash: md5
+      md5: 71faf84ab0aa6ca1ac7dda5ec8a33be0
+      size: 4522
+    outs:
+    - path: data/raw/Telco_Customer_Churn.csv
+      hash: md5
+      md5: 7f07de26b054de4c36eed95a1277fe21
+      size: 978285
+  data_validation:
+    cmd: venv\Scripts\python.exe scripts\run_validation.py
+    deps:
+    - path: data/raw/Telco_Customer_Churn.csv
+      hash: md5
+      md5: 7f07de26b054de4c36eed95a1277fe21
+      size: 978285
+    - path: scripts/run_validation.py
+      hash: md5
+      md5: 27effabb6743ae0b829aebd5549c4381
+      size: 370
+    - path: src/validation/data_validation.py
+      hash: md5
+      md5: 7f2331947817dca5db923251358b249c
+      size: 7621
+  data_cleaning:
+    cmd: venv\Scripts\python.exe scripts\run_cleaning.py
+    deps:
+    - path: data/raw/Telco_Customer_Churn.csv
+      hash: md5
+      md5: 7f07de26b054de4c36eed95a1277fe21
+      size: 978285
+    - path: scripts/run_cleaning.py
+      hash: md5
+      md5: 011e2f5253b2d3076fbc8c045bbef9d2
+      size: 317
+    - path: src/processings/data_cleanup.py
+      hash: md5
+      md5: 4700b600360e3d83ddcb9c03932c633c
+      size: 5083
+    outs:
+    - path: data/processed/Telco_Customer_Churn.csv
+      hash: md5
+      md5: 7f07de26b054de4c36eed95a1277fe21
+      size: 978285
+  data_splitting:
+    cmd: venv\Scripts\python.exe scripts\run_splitting.py
+    deps:
+    - path: data/processed/Telco_Customer_Churn.csv
+      hash: md5
+      md5: 7f07de26b054de4c36eed95a1277fe21
+      size: 978285
+    - path: scripts/run_splitting.py
+      hash: md5
+      md5: 43cdc2d761aa660e74d8311304e557e8
+      size: 315
+    - path: src/processings/data_split.py
+      hash: md5
+      md5: 1293f576508c60101d5b2e4918b3abe4
+      size: 4378
+    outs:
+    - path: data/processed/test/
+      hash: md5
+      md5: 58009d030ad35f126be2d2c4cea0c468.dir
+      size: 196438
+      nfiles: 1
+    - path: data/processed/train/
+      hash: md5
+      md5: cb10673d60dbbcc0b0ef0dc3a4471078.dir
+      size: 625370
+      nfiles: 1
+    - path: data/processed/val/
+      hash: md5
+      md5: 315555dbcf1bf12e208569355b266fb7.dir
+      size: 156999
+      nfiles: 1
