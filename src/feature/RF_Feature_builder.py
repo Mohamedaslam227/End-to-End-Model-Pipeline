@@ -4,9 +4,11 @@ from src.utils.logger import LoggerConfig
 import pandas as pd
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
-from sklearn.processing import OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder
 
 
+
+from sklearn.ensemble import RandomForestClassifier
 
 class RF_FeatureBuilder(DataComponent):
     def __init__(self, logger, config: ConfigManager):
@@ -28,22 +30,29 @@ class RF_FeatureBuilder(DataComponent):
             val_data = pd.read_csv(val_data)
             self.logger.info(f"✓ Validation data loaded successfully")
             self.logger.info(f"  Shape: {val_data.shape}")
-            training_data = train_data.drop_columns(columns=['customerID', self.get_config("dataset.target_column")])
+            
+            # Prepare feature matrices and target vectors
+            training_data = train_data.drop(columns=['customerID', self.get_config("dataset.target_column")])
             target_train = train_data[self.get_config("dataset.target_column")].map({"Yes":1,"No":0})
             target_test = test_data[self.get_config("dataset.target_column")].map({"Yes":1,"No":0})
             target_val = val_data[self.get_config("dataset.target_column")].map({"Yes":1,"No":0})
-            test_data = test_data.drop_columns(columns=['customerID', self.get_config("dataset.target_column")])
-            val_data = val_data.drop_columns(columns=['customerID', self.get_config("dataset.target_column")])
-            train_data = train_data[self.get_config("dataset.target_column")].map({"Yes":1, "No":0})
-            numeric_features = train_data.select_dtypes(include=['int64', 'float64']).columns.tolist()
-            categorical_features = train_data.select_dtypes(include=['object']).columns.tolist()
+            
+            test_data = test_data.drop(columns=['customerID', self.get_config("dataset.target_column")])
+            val_data = val_data.drop(columns=['customerID', self.get_config("dataset.target_column")])
+            
+            # Identify columns using the feature matrix (training_data)
+            numeric_features = training_data.select_dtypes(include=['int64', 'float64']).columns.tolist()
+            categorical_features = training_data.select_dtypes(include=['object']).columns.tolist()
+            
             binary_features =  [
                 "Partner",
                 "Dependents",
                 "PhoneService",
                 "PaperlessBilling"
             ]
-            categorical_features = [set(categorical_features) - set(binary_features)]
+            
+            # Correctly exclude binary features from categorical features
+            categorical_features = list(set(categorical_features) - set(binary_features))
             binary_transformer = OneHotEncoder(
                 drop='if_binary',
                 handle_unknown='ignore'

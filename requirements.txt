@@ -7,3 +7,4 @@ great_expectations
 mlflow
 dvc
 dvc[gdrive]  # If you want to use Google Drive as remote storage
+joblib

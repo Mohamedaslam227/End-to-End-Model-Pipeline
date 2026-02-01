@@ -5,8 +5,8 @@ stages:
     deps:
     - path: configs/data_config.yaml
       hash: md5
-      md5: a5a866203e2e9bc3b17773ba7dd5d942
-      size: 382
+      md5: 4bb47af31abcfba012eff0124f6f0c50
+      size: 654
     - path: csv_files/Telco_Customer_Churn.csv
       hash: md5
       md5: 0f9de68e012bd3aed5fa7cdc9fc421af
@@ -90,3 +90,38 @@ stages:
       md5: 315555dbcf1bf12e208569355b266fb7.dir
       size: 156999
       nfiles: 1
+  training_pipeline:
+    cmd: venv\Scripts\python.exe scripts\run_training.py
+    deps:
+    - path: data/processed/test/
+      hash: md5
+      md5: 58009d030ad35f126be2d2c4cea0c468.dir
+      size: 196438
+      nfiles: 1
+    - path: data/processed/train/
+      hash: md5
+      md5: cb10673d60dbbcc0b0ef0dc3a4471078.dir
+      size: 625370
+      nfiles: 1
+    - path: data/processed/val/
+      hash: md5
+      md5: 315555dbcf1bf12e208569355b266fb7.dir
+      size: 156999
+      nfiles: 1
+    - path: scripts/run_training.py
+      hash: md5
+      md5: fef64be8121eec0aa1ea7526b5354d4e
+      size: 711
+    - path: src/feature/RF_Feature_builder.py
+      hash: md5
+      md5: e6a14630866a19fde4ff13e4e71c29be
+      size: 4035
+    - path: src/training/train_model.py
+      hash: md5
+      md5: e10d0592110d1e309cc5fee1b1596919
+      size: 4088
+    outs:
+    - path: models/rf_telco_churn.pkl
+      hash: md5
+      md5: b2b04df3c53b81b9f033cd590505f58b
+      size: 747266

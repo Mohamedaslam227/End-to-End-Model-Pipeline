@@ -45,5 +45,4 @@ stages:
       - src/training/train_model.py
       - scripts/run_training.py
     outs:
-      - models/model.pkl
-      - models/preprocessor.pkl
+      - models/rf_telco_churn.pkl
